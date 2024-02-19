@@ -7,27 +7,29 @@
 #include maps/mp/gametypes_zm/_weapons;
 #include maps/mp/zombies/_zm_perks;
 #include maps/mp/gametypes_zm/_hud_util;
+#include maps/mp/zombies/_zm_powerups;
 
 main()
 {
 	if(GetDvar("customMap") == "vanilla")
 		return;
 	replacefunc(maps/mp/zombies/_zm_perks::get_perk_array, ::get_perk_array);
+	replaceFunc(maps/mp/zombies/_zm_powerups::full_ammo_powerup, ::full_ammo_powerup_override );
 }
 
 init()
 {
 	//level.player_out_of_playable_area_monitor = 0;
-	level.player_starting_points = 500;
+	//level.player_starting_points = 500000;
 	//level.perk_purchase_limit = 10;
-	if(level.customMap == "vanilla")
-		return;
+	//if(level.customMap == "vanilla")
+	//	return;
 	thread init_custom_map();
 	if ( isDefined ( level.customMap ) && level.customMap != "vanilla" || getDvar("customMap") == "farm")
 	{
 		setDvar( "scr_screecher_ignore_player", 1 );
 	}
-	level.callbackactordamage = ::actor_damage_override_wrapper;
+	level.get_player_perk_purchase_limit = ::get_player_perk_purchase_limit;
 }
 
 meleeCoords()
@@ -38,6 +40,7 @@ meleeCoords()
 	{
 		if(self meleeButtonPressed())
 		{
+			
 			self IPrintLn("hello there");
 			me = self.origin;
 			you = self GetPlayerAngles();
@@ -46,6 +49,29 @@ meleeCoords()
 			logprint(self.origin + ", " + angles + "\n");
 			wait 1;
 			self IPrintLn("Angles = "+ you);
+
+
+			/*IPrintLn("Changing Weapon Tier");
+			weapon = maps/mp/zombies/_zm_weapons::get_base_name(self GetCurrentWeapon());
+			if(!isdefined(self.weaponTiers))
+			{
+				self.weaponTiers = [];
+			}
+			if(!isdefined(self.weaponTiers[weapon]))
+			{
+				self.weaponTiers[weapon] = 0;
+			}
+			else
+			{
+				if(self.weaponTiers[weapon] == 4)
+				{
+					self.weaponTiers[weapon] = 0;
+				}
+				else
+				{
+					self.weaponTiers[weapon]++;
+				}
+			}*/
 			/*
 			for(i=0;i<level.chests.size;i++)
 			{
@@ -143,7 +169,7 @@ onplayerconnected()
 
 perkHud()
 {
-	if(level.script != "zm_prison" && level.script != "zm_highrise")
+	if(level.script != "zm_highrise")
 		return;
 	if(isdefined(level.customMap) && level.customMap == "vanilla")
 		return;
@@ -869,120 +895,53 @@ clear(player)
 	self destroy();
 }
 
-actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon, vpoint, vdir, shitloc, psoffsettime, boneindex ) //checked changed to match cerberus output //checked against bo3 _zm.gsc partially changed to match
+full_ammo_powerup_override( drop_item, player )
 {
-	if ( !isDefined( self ) || !isDefined( attacker ) )
-	{
-		return damage;
-	}
-	if ( weapon == "tazer_knuckles_zm" || weapon == "jetgun_zm" )
-	{
-		self.knuckles_extinguish_flames = 1;
-	}
-	else if ( weapon != "none" )
-	{
-		self.knuckles_extinguish_flames = undefined;
-	}
-	if ( isDefined( attacker.animname ) && attacker.animname == "quad_zombie" )
-	{
-		if ( isDefined( self.animname ) && self.animname == "quad_zombie" )
-		{
-			return 0;
-		}
-	}
-	if ( !isplayer( attacker ) && isDefined( self.non_attacker_func ) )
-	{
-		if ( isDefined( self.non_attack_func_takes_attacker ) && self.non_attack_func_takes_attacker )
-		{
-			return self [[ self.non_attacker_func ]]( damage, weapon, attacker );
-		}
-		else
-		{
-			return self [[ self.non_attacker_func ]]( damage, weapon );
-		}
-	}
-	if ( !isplayer( attacker ) && !isplayer( self ) )
-	{
-		return damage;
-	}
-	if ( !isDefined( damage ) || !isDefined( meansofdeath ) )
-	{
-		return damage;
-	}
-	if ( meansofdeath == "" )
-	{
-		return damage;
-	}
-	old_damage = damage;
-	final_damage = damage;
-	if ( isDefined( self.actor_damage_func ) )
-	{
-		final_damage = [[ self.actor_damage_func ]]( inflictor, attacker, damage, flags, meansofdeath, weapon, vpoint, vdir, shitloc, psoffsettime, boneindex );
-	}
-	if ( attacker.classname == "script_vehicle" && isDefined( attacker.owner ) )
-	{
-		attacker = attacker.owner;
-	}
-	if ( isDefined( self.in_water ) && self.in_water )
-	{
-		if ( int( final_damage ) >= self.health )
-		{
-			self.water_damage = 1;
-		}
-	}
-	attacker thread maps/mp/gametypes_zm/_weapons::checkhit( weapon );
-	if ( attacker maps/mp/zombies/_zm_pers_upgrades_functions::pers_mulit_kill_headshot_active() && is_headshot( weapon, shitloc, meansofdeath ) )
-	{
-		final_damage *= 2;
-	}
-	if ( is_true( level.headshots_only ) && isDefined( attacker ) && isplayer( attacker ) )
-	{
-		//changed to match bo3 _zm.gsc behavior
-		if ( meansofdeath == "MOD_MELEE" && shitloc == "head" || meansofdeath == "MOD_MELEE" && shitloc == "helmet" )
-		{
-			return int( final_damage );
-		}
-		if ( is_explosive_damage( meansofdeath ) )
-		{
-			return int( final_damage );
-		}
-		else if ( !is_headshot( weapon, shitloc, meansofdeath ) )
-		{
-			return 0;
-		}
-	}
-	if ( self.animname != "brutus_zombie" )
-	{
-		if ( weapon == "minigun_alcatraz_zm" )
-		{
-			final_damage = ( self.health * 0.24 ) + 666;
-		}
-		else if ( weapon == "minigun_alcatraz_upgraded_zm" )
-		{
-			final_damage = ( self.health * 0.29 ) + 666;
-		}
-		if ( is_true( level.zombiemode_using_deadshot_perk ) && isDefined( attacker ) && isPlayer( attacker ) && attacker hasPerk( "specialty_deadshot" ) && is_headshot( weapon, shitloc, meansofdeath ) )
-		{
-			final_damage *= 2;
-		}
-	}
-	else if ( self.animname == "brutus_zombie" )
-	{
-		final_damage /= 3;
-	}
-	return int( final_damage );
-}
+	players = get_players( player.team );
 
-actor_damage_override_wrapper( inflictor, attacker, damage, flags, meansofdeath, weapon, vpoint, vdir, shitloc, psoffsettime, boneindex ) //checked does not match cerberus output did not change
-{
-	damage_override = self actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon, vpoint, vdir, shitloc, psoffsettime, boneindex );
-	if ( ( self.health - damage_override ) > 0 || !is_true( self.dont_die_on_me ) )
+	if ( isdefined( level._get_game_module_players ) )
+		players = [[ level._get_game_module_players ]]( player );
+
+	i = 0;
+	while ( i < players.size )
 	{
-		self finishactordamage( inflictor, attacker, damage_override, flags, meansofdeath, weapon, vpoint, vdir, shitloc, psoffsettime, boneindex );
-	}
-	else 
-	{
-		self [[ level.callbackactorkilled ]]( inflictor, attacker, damage, meansofdeath, weapon, vdir, shitloc, psoffsettime );
-		self finishactordamage( inflictor, attacker, damage_override, flags, meansofdeath, weapon, vpoint, vdir, shitloc, psoffsettime, boneindex );
+		if ( players[i] maps\mp\zombies\_zm_laststand::player_is_in_laststand() )
+		{
+			i++;
+			continue;
+		}
+		primary_weapons = players[i] getweaponslist( 1 );
+		players[i] notify( "zmb_max_ammo" );
+		players[i] notify( "zmb_lost_knife" );
+		players[i] notify( "zmb_disable_claymore_prompt" );
+		players[i] notify( "zmb_disable_spikemore_prompt" );
+
+		x = 0;
+		while ( x < primary_weapons.size )
+		{
+			if ( level.headshots_only && is_lethal_grenade( primary_weapons[x] ) )
+			{
+				x++;
+				continue;
+			}
+			if ( isdefined( level.zombie_include_equipment ) && isdefined( level.zombie_include_equipment[ primary_weapons[ x ] ] ) )
+			{
+				x++;
+				continue;
+			}
+			if ( isdefined( level.zombie_weapons_no_max_ammo ) && isdefined( level.zombie_weapons_no_max_ammo[ primary_weapons[ x ] ] ) )
+			{
+				x++;
+				continue;
+			}
+			if ( players[i] hasweapon( primary_weapons[x] ) )
+			{
+				players[i] givemaxammo( primary_weapons[x] );
+				clip_max_ammo = weaponclipsize( primary_weapons[x] );
+				players[i] setweaponammoclip( primary_weapons[x], clip_max_ammo );
+			}
+			x++;
+		}
+		i++;
 	}
 }
