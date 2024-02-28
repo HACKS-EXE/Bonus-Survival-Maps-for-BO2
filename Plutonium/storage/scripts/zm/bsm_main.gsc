@@ -1,20 +1,20 @@
-#include maps/mp/zombies/_zm_utility;
-#include common_scripts/utility;
-#include maps/mp/_utility;
-#include maps/mp/zombies/_zm_buildables;
-#include maps/mp/zombies/_zm_game_module;
-#include maps/mp/zombies/_zm_ai_basic;
-#include maps/mp/gametypes_zm/_weapons;
-#include maps/mp/zombies/_zm_perks;
-#include maps/mp/gametypes_zm/_hud_util;
-#include maps/mp/zombies/_zm_powerups;
+#include maps\mp\zombies\_zm_utility;
+#include common_scripts\utility;
+#include maps\mp\_utility;
+#include maps\mp\zombies\_zm_buildables;
+#include maps\mp\zombies\_zm_game_module;
+#include maps\mp\zombies\_zm_ai_basic;
+#include maps\mp\gametypes_zm\_weapons;
+#include maps\mp\zombies\_zm_perks;
+#include maps\mp\gametypes_zm\_hud_util;
+#include maps\mp\zombies\_zm_powerups;
 
 main()
 {
 	if(GetDvar("customMap") == "vanilla")
 		return;
-	replacefunc(maps/mp/zombies/_zm_perks::get_perk_array, ::get_perk_array);
-	replaceFunc(maps/mp/zombies/_zm_powerups::full_ammo_powerup, ::full_ammo_powerup_override );
+	replacefunc(maps\mp\zombies\_zm_perks::get_perk_array, ::get_perk_array);
+	replaceFunc(maps\mp\zombies\_zm_powerups::full_ammo_powerup, ::full_ammo_powerup_override );
 }
 
 init()
@@ -45,14 +45,14 @@ meleeCoords()
 			me = self.origin;
 			you = self GetPlayerAngles();
 			self IPrintLn("Origin = "+ me);
-			angles = (0, (self GetPlayerAngles())[1] + 90, 0);
+			angles = (0, (self GetPlayerAngles()) + 90, 0);
 			logprint(self.origin + ", " + angles + "\n");
 			wait 1;
 			self IPrintLn("Angles = "+ you);
 
 
 			/*IPrintLn("Changing Weapon Tier");
-			weapon = maps/mp/zombies/_zm_weapons::get_base_name(self GetCurrentWeapon());
+			weapon = maps\mp\zombies\_zm_weapons::get_base_name(self GetCurrentWeapon());
 			if(!isdefined(self.weaponTiers))
 			{
 				self.weaponTiers = [];
@@ -148,7 +148,7 @@ init_custom_map()
 
 power_setup()
 {
-	maps/mp/zombies/_zm_game_module::turn_power_on_and_open_doors();
+	maps\mp\zombies\_zm_game_module::turn_power_on_and_open_doors();
 	wait 1;
 	flag_set( "power_on" );
 	level setclientfield( "zombie_power_on", 1 );
@@ -389,7 +389,7 @@ piece_unspawn()
 	self.model = undefined;
 	if ( isDefined( self.unitrigger ) )
 	{
-		thread maps/mp/zombies/_zm_unitrigger::unregister_unitrigger( self.unitrigger );
+		thread maps\mp\zombies\_zm_unitrigger::unregister_unitrigger( self.unitrigger );
 	}
 	self.unitrigger = undefined;
 }
@@ -473,8 +473,8 @@ buildbuildable( buildable, craft ) //credit to Jbleezy for this function
 			{
 				if (craft)
 				{
-					stub maps/mp/zombies/_zm_buildables::buildablestub_finish_build( player );
-					stub maps/mp/zombies/_zm_buildables::buildablestub_remove();
+					stub maps\mp\zombies\_zm_buildables::buildablestub_finish_build( player );
+					stub maps\mp\zombies\_zm_buildables::buildablestub_remove();
 					stub.model notsolid();
 					stub.model show();
 				}
@@ -482,10 +482,10 @@ buildbuildable( buildable, craft ) //credit to Jbleezy for this function
 				i = 0;
 				foreach ( piece in stub.buildablezone.pieces )
 				{
-					piece maps/mp/zombies/_zm_buildables::piece_unspawn();
+					piece maps\mp\zombies\_zm_buildables::piece_unspawn();
 					if ( !craft && i > 0 )
 					{
-						stub.buildablezone maps/mp/zombies/_zm_buildables::buildable_set_piece_built( piece );
+						stub.buildablezone maps\mp\zombies\_zm_buildables::buildable_set_piece_built( piece );
 					}
 					i++;
 				}
@@ -509,7 +509,7 @@ removebuildable( buildable, after_built )
 			if(IsDefined(stub.equipname) && stub.equipname == buildable)
 			{
 				stub.model hide();
-				maps/mp/zombies/_zm_unitrigger::unregister_unitrigger( stub );
+				maps\mp\zombies\_zm_unitrigger::unregister_unitrigger( stub );
 				return;
 			}
 		}
@@ -522,12 +522,12 @@ removebuildable( buildable, after_built )
 			{
 				if ( isDefined( buildable ) || stub.persistent != 3 )
 				{
-					stub maps/mp/zombies/_zm_buildables::buildablestub_remove();
+					stub maps\mp\zombies\_zm_buildables::buildablestub_remove();
 					foreach (piece in stub.buildablezone.pieces)
 					{
-						piece maps/mp/zombies/_zm_buildables::piece_unspawn();
+						piece maps\mp\zombies\_zm_buildables::piece_unspawn();
 					}
-					maps/mp/zombies/_zm_unitrigger::unregister_unitrigger( stub );
+					maps\mp\zombies\_zm_unitrigger::unregister_unitrigger( stub );
 					return;
 				}
 			}
