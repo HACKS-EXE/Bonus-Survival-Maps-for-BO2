@@ -1,19 +1,19 @@
-#include maps/mp/zombies/_zm_utility;
-#include common_scripts/utility;
-#include maps/mp/_utility;
-#include maps/mp/zombies/_zm;
-#include maps/mp/zombies/_zm_blockers;
-#include maps/mp/gametypes_zm/_hud_util;
+#include maps\mp\zombies\_zm_utility;
+#include common_scripts\utility;
+#include maps\mp\_utility;
+#include maps\mp\zombies\_zm;
+#include maps\mp\zombies\_zm_blockers;
+#include maps\mp\gametypes_zm\_hud_util;
 
 main()
 {
 	if(GetDvar("zeGamemode") != "sharpshooter")
 		return;
-	replacefunc(maps/mp/zombies/_zm_score::minus_to_player_score, ::minus_to_player_score);
-	replacefunc(maps/mp/zombies/_zm_score::player_reduce_points, ::player_reduce_points);
-	replacefunc(maps/mp/zombies/_zm_magicbox::can_buy_weapon, ::can_buy_weapon);
-	replacefunc(maps/mp/zombies/_zm::player_revive_monitor, ::player_revive_monitor);
-	replacefunc(maps/mp/zombies/_zm::ai_calculate_health, ::ai_calculate_health);
+	replacefunc(maps\mp\zombies\_zm_score::minus_to_player_score, ::minus_to_player_score);
+	replacefunc(maps\mp\zombies\_zm_score::player_reduce_points, ::player_reduce_points);
+	replacefunc(maps\mp\zombies\_zm_magicbox::can_buy_weapon, ::can_buy_weapon);
+	replacefunc(maps\mp\zombies\_zm::player_revive_monitor, ::player_revive_monitor);
+	replacefunc(maps\mp\zombies\_zm::ai_calculate_health, ::ai_calculate_health);
 }
 
 init()
@@ -45,7 +45,7 @@ round_think()
 	}
 	foreach(player in get_players())
 	{
-		player maps/mp/zombies/_zm_stats::set_global_stat( "rounds", level.round_number );
+		player maps\mp\zombies\_zm_stats::set_global_stat( "rounds", level.round_number );
 	}
 	for(;;)
 	{
@@ -55,9 +55,9 @@ round_think()
 			maxreward = 500;
 		}
 		level.zombie_vars[ "rebuild_barrier_cap_per_round" ] = maxreward;
-		level thread maps/mp/zombies/_zm_audio::change_zombie_music( "round_start" );
+		level thread maps\mp\zombies\_zm_audio::change_zombie_music( "round_start" );
 		wait 2.5;
-		maps/mp/zombies/_zm_powerups::powerup_round_start();
+		maps\mp\zombies\_zm_powerups::powerup_round_start();
 		players = get_players();
 		array_thread( players, ::rebuild_barrier_reward_reset );
 		level.round_start_time = getTime();
@@ -84,7 +84,7 @@ round_think()
 		[[ level.round_wait_func ]]();
 		level.first_round = 0;
 		level notify( "end_of_round" );
-		level thread maps/mp/zombies/_zm_audio::change_zombie_music( "round_end" );
+		level thread maps\mp\zombies\_zm_audio::change_zombie_music( "round_end" );
 		uploadstats();
 		if ( isDefined( level.round_end_custom_logic ) )
 		{
@@ -128,10 +128,10 @@ round_think()
 		{
 			if ( level.curr_gametype_affects_rank && level.round_number > 3 + level.start_round )
 			{
-				player maps/mp/zombies/_zm_stats::add_client_stat( "weighted_rounds_played", level.round_number );
+				player maps\mp\zombies\_zm_stats::add_client_stat( "weighted_rounds_played", level.round_number );
 			}
-			player maps/mp/zombies/_zm_stats::set_global_stat( "rounds", level.round_number );
-			player maps/mp/zombies/_zm_stats::update_playing_utc_time( matchutctime );
+			player maps\mp\zombies\_zm_stats::set_global_stat( "rounds", level.round_number );
+			player maps\mp\zombies\_zm_stats::update_playing_utc_time( matchutctime );
 		}
 		check_quickrevive_for_hotjoin();
 		level round_over();
@@ -233,7 +233,7 @@ sharpshooter_timer()
 			wait 1;
 		}
 		kill_all_zambs();
-		maps/mp/gametypes_zm/_zm_gametype::revive_laststand_players();
+		maps\mp\gametypes_zm\_zm_gametype::revive_laststand_players();
 	}
 	sharpshooter_timer.alpha = 0;
 	foreach(player in get_players())
@@ -279,7 +279,7 @@ checkforalldead() //checked changed to match cerberus output
 	i = 0;
 	while ( i < players.size )
 	{
-		if ( !players[i] maps/mp/zombies/_zm_laststand::player_is_in_laststand() && players[ i ].sessionstate != "spectator" )
+		if ( !players[i] maps\mp\zombies\_zm_laststand::player_is_in_laststand() && players[ i ].sessionstate != "spectator" )
 		{
 			count++;
 		}
@@ -339,7 +339,7 @@ minus_to_player_score( points, ignore_double_points_upgrade ) //checked matches 
 disableboxes()
 {
 	foreach(chest in level.chests)
-		chest maps/mp/zombies/_zm_magicbox::hide_chest();
+		chest maps\mp\zombies\_zm_magicbox::hide_chest();
 }
 
 can_buy_weapon() //checked matches cerberus output
@@ -376,7 +376,7 @@ player_damage_override( einflictor, eattacker, idamage, idflags, smeansofdeath, 
 	{
 		return 0;
 	}
-	if ( self maps/mp/zombies/_zm_laststand::player_is_in_laststand() )
+	if ( self maps\mp\zombies\_zm_laststand::player_is_in_laststand() )
 	{
 		return 0;
 	}
@@ -460,11 +460,11 @@ player_damage_override( einflictor, eattacker, idamage, idflags, smeansofdeath, 
 			{
 				if ( randomintrange( 0, 1 ) == 0 )
 				{
-					self thread maps/mp/zombies/_zm_audio::playerexert( "hitmed" );
+					self thread maps\mp\zombies\_zm_audio::playerexert( "hitmed" );
 				}
 				else
 				{
-					self thread maps/mp/zombies/_zm_audio::playerexert( "hitlrg" );
+					self thread maps\mp\zombies\_zm_audio::playerexert( "hitlrg" );
 				}
 			}
 		}
@@ -491,7 +491,7 @@ player_damage_override( einflictor, eattacker, idamage, idflags, smeansofdeath, 
 		}
 		if ( is_true( level.pers_upgrade_flopper ) )
 		{
-			if ( self maps/mp/zombies/_zm_pers_upgrades_functions::pers_upgrade_flopper_damage_check( smeansofdeath, idamage ) )
+			if ( self maps\mp\zombies\_zm_pers_upgrades_functions::pers_upgrade_flopper_damage_check( smeansofdeath, idamage ) )
 			{
 				return 0;
 			}
@@ -530,11 +530,11 @@ player_damage_override( einflictor, eattacker, idamage, idflags, smeansofdeath, 
 			}
 			if ( !is_true( eattacker.has_legs ) )
 			{
-				self maps/mp/zombies/_zm_audio::create_and_play_dialog( "general", "crawl_hit" );
+				self maps\mp\zombies\_zm_audio::create_and_play_dialog( "general", "crawl_hit" );
 			}
 			else if ( isDefined( eattacker.animname ) && eattacker.animname == "monkey_zombie" )
 			{
-				self maps/mp/zombies/_zm_audio::create_and_play_dialog( "general", "monkey_hit" );
+				self maps\mp\zombies\_zm_audio::create_and_play_dialog( "general", "monkey_hit" );
 			}
 		}
 		return finaldamage;
@@ -543,13 +543,13 @@ player_damage_override( einflictor, eattacker, idamage, idflags, smeansofdeath, 
 	{
 		if ( isDefined( eattacker.animname ) && eattacker.animname == "zombie_dog" )
 		{
-			self maps/mp/zombies/_zm_stats::increment_client_stat( "killed_by_zdog" );
-			self maps/mp/zombies/_zm_stats::increment_player_stat( "killed_by_zdog" );
+			self maps\mp\zombies\_zm_stats::increment_client_stat( "killed_by_zdog" );
+			self maps\mp\zombies\_zm_stats::increment_player_stat( "killed_by_zdog" );
 		}
 		else if ( isDefined( eattacker.is_avogadro ) && eattacker.is_avogadro )
 		{
-			self maps/mp/zombies/_zm_stats::increment_client_stat( "killed_by_avogadro", 0 );
-			self maps/mp/zombies/_zm_stats::increment_player_stat( "killed_by_avogadro" );
+			self maps\mp\zombies\_zm_stats::increment_client_stat( "killed_by_avogadro", 0 );
+			self maps\mp\zombies\_zm_stats::increment_player_stat( "killed_by_avogadro" );
 		}
 	}
 	self thread clear_path_timers();
@@ -575,7 +575,7 @@ player_damage_override( einflictor, eattacker, idamage, idflags, smeansofdeath, 
 	{
 		//count of dead players
 		//checked changed to match bo1 _zombiemode.gsc
-		if ( players[ i ] == self || players[ i ].is_zombie || players[ i ] maps/mp/zombies/_zm_laststand::player_is_in_laststand() || players[ i ].sessionstate == "spectator" )
+		if ( players[ i ] == self || players[ i ].is_zombie || players[ i ] maps\mp\zombies\_zm_laststand::player_is_in_laststand() || players[ i ].sessionstate == "spectator" )
 		{
 			count++;
 		}
@@ -592,7 +592,7 @@ player_damage_override( einflictor, eattacker, idamage, idflags, smeansofdeath, 
 	if ( !is_true( level.no_end_game_check ) )
 	{
 		level notify( "stop_suicide_trigger" );
-		self thread maps/mp/zombies/_zm_laststand::playerlaststand( einflictor, eattacker, idamage, smeansofdeath, sweapon, vdir, shitloc, psoffsettime );
+		self thread maps\mp\zombies\_zm_laststand::playerlaststand( einflictor, eattacker, idamage, smeansofdeath, sweapon, vdir, shitloc, psoffsettime );
 		if ( !isDefined( vdir ) )
 		{
 			vdir = ( 1, 0, 0 );
@@ -624,11 +624,11 @@ player_laststand( einflictor, attacker, idamage, smeansofdeath, sweapon, vdir, s
 	self addweaponstat( statweapon, "deathsDuringUse", 1 );
 	if ( is_true( self.hasperkspecialtytombstone ) )
 	{
-		self.laststand_perks = maps/mp/zombies/_zm_tombstone::tombstone_save_perks( self );
+		self.laststand_perks = maps\mp\zombies\_zm_tombstone::tombstone_save_perks( self );
 	}
 	if ( isDefined( self.pers_upgrades_awarded[ "perk_lose" ] ) && self.pers_upgrades_awarded[ "perk_lose" ] )
 	{
-		self maps/mp/zombies/_zm_pers_upgrades_functions::pers_upgrade_perk_lose_save();
+		self maps\mp\zombies\_zm_pers_upgrades_functions::pers_upgrade_perk_lose_save();
 	}
 	players = get_players();
 	if ( self hasperk( "specialty_additionalprimaryweapon" ) )
@@ -645,20 +645,20 @@ player_laststand( einflictor, attacker, idamage, smeansofdeath, sweapon, vdir, s
 	self clear_is_drinking();
 	self thread remove_deadshot_bottle();
 	self thread remote_revive_watch();
-	self maps/mp/zombies/_zm_score::player_downed_penalty();
+	self maps\mp\zombies\_zm_score::player_downed_penalty();
 	self disableoffhandweapons();
 	self thread last_stand_grenade_save_and_return();
 	if ( smeansofdeath != "MOD_SUICIDE" && smeansofdeath != "MOD_FALLING" )
 	{
 		if ( !is_true( self.intermission ) )
 		{
-			self maps/mp/zombies/_zm_audio::create_and_play_dialog( "general", "revive_down" );
+			self maps\mp\zombies\_zm_audio::create_and_play_dialog( "general", "revive_down" );
 		}
 		else
 		{
 			if ( isDefined( level.custom_player_death_vo_func ) &&  !self [[ level.custom_player_death_vo_func ]]() )
 			{
-				self maps/mp/zombies/_zm_audio::create_and_play_dialog( "general", "exert_death" );
+				self maps\mp\zombies\_zm_audio::create_and_play_dialog( "general", "exert_death" );
 			}
 		}
 	}

@@ -1,7 +1,7 @@
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/zombies/_zm_powerups;
-#include maps/mp/_utility;
-#include common_scripts/utility;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\zombies\_zm_powerups;
+#include maps\mp\_utility;
+#include common_scripts\utility;
 
 init()
 {
@@ -14,7 +14,7 @@ init()
 weapon_upgrade_powerup( powerup, player)
 {
 	current_weapon = player GetCurrentWeapon();
-	upgrade_name = maps/mp/zombies/_zm_weapons::get_upgrade_weapon( current_weapon );
+	upgrade_name = maps\mp\zombies\_zm_weapons::get_upgrade_weapon( current_weapon );
 	if(current_weapon == upgrade_name)
 		return;
 	player TakeWeapon(current_weapon);

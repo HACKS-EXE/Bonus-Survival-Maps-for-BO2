@@ -1,14 +1,14 @@
-#include maps/mp/zombies/_zm_zonemgr;
-#include maps/mp/gametypes_zm/_zm_gametype;
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/_utility;
-#include common_scripts/utility;
+#include maps\mp\zombies\_zm_zonemgr;
+#include maps\mp\gametypes_zm\_zm_gametype;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\_utility;
+#include common_scripts\utility;
 
 main()
 {
 	if(GetDvar("customMap") == "vanilla")
 		return;
-	replacefunc(maps/mp/zombies/_zm_zonemgr::manage_zones, ::manage_zones);
+	replacefunc(maps\mp\zombies\_zm_zonemgr::manage_zones, ::manage_zones);
 }
 
 manage_zones( initial_zone ) //checked changed to match cerberus output
@@ -16,7 +16,7 @@ manage_zones( initial_zone ) //checked changed to match cerberus output
 
 	deactivate_initial_barrier_goals();
 	zone_choke = 0;
-	spawn_points = maps/mp/gametypes_zm/_zm_gametype::get_player_spawns_for_gametype();
+	spawn_points = maps\mp\gametypes_zm\_zm_gametype::get_player_spawns_for_gametype();
 	for ( i = 0; i < spawn_points.size; i++ )
 	{
 		spawn_points[ i ].locked = 1;
@@ -232,7 +232,7 @@ manage_zones( initial_zone ) //checked changed to match cerberus output
 			}
 		}
 		create_spawner_list( zkeys );
-		level.active_zone_names = maps/mp/zombies/_zm_zonemgr::get_active_zone_names();
+		level.active_zone_names = maps\mp\zombies\_zm_zonemgr::get_active_zone_names();
 		wait 1;
 	}
 }

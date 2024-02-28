@@ -1,10 +1,10 @@
-#include maps/mp/zombies/_zm_utility;
-#include common_scripts/utility;
-#include maps/mp/_utility;
-#include maps/mp/zombies/_zm_powerups;
-#include maps/mp/zombies/_zm_spawner;
-#include maps/mp/zombies/_zm_perks;
-#include maps/mp/gametypes_zm/_hud_util;
+#include maps\mp\zombies\_zm_utility;
+#include common_scripts\utility;
+#include maps\mp\_utility;
+#include maps\mp\zombies\_zm_powerups;
+#include maps\mp\zombies\_zm_spawner;
+#include maps\mp\zombies\_zm_perks;
+#include maps\mp\gametypes_zm\_hud_util;
 
 main()
 {
@@ -16,14 +16,14 @@ main()
 	include_powerup( "snail" );
 	include_powerup( "bottom_clip" );
 	include_powerup( "broken_gun" );
-	replacefunc(maps/mp/zombies/_zm_powerups::init_powerups, ::init_powerups);
-	replacefunc(maps/mp/zombies/_zm_powerups::get_next_powerup, ::get_next_powerup);
-	replacefunc(maps/mp/zombies/_zm_powerups::powerup_grab, ::powerup_grab);
-	replacefunc(maps/mp/zombies/_zm_powerups::double_points_powerup, ::double_points_powerup);
-	replacefunc(maps/mp/zombies/_zm_perks::give_random_perk, ::give_random_perk);
-	replacefunc(maps/mp/zombies/_zm_spawner::zombie_death_points, ::zombie_death_points);
-	replacefunc(maps/mp/zombies/_zm_powerups::free_perk_powerup, ::free_perk_powerup);
-	replacefunc(maps/mp/zombies/_zm_score::get_points_multiplier, ::get_points_multiplier);
+	replacefunc(maps\mp\zombies\_zm_powerups::init_powerups, ::init_powerups);
+	replacefunc(maps\mp\zombies\_zm_powerups::get_next_powerup, ::get_next_powerup);
+	replacefunc(maps\mp\zombies\_zm_powerups::powerup_grab, ::powerup_grab);
+	replacefunc(maps\mp\zombies\_zm_powerups::double_points_powerup, ::double_points_powerup);
+	replacefunc(maps\mp\zombies\_zm_perks::give_random_perk, ::give_random_perk);
+	replacefunc(maps\mp\zombies\_zm_spawner::zombie_death_points, ::zombie_death_points);
+	replacefunc(maps\mp\zombies\_zm_powerups::free_perk_powerup, ::free_perk_powerup);
+	replacefunc(maps\mp\zombies\_zm_score::get_points_multiplier, ::get_points_multiplier);
 }
 
 init_powerups() //checked matches cerberus output
@@ -122,12 +122,12 @@ powerup_grab(powerup_team) //checked partially changed to match cerberus output
 		{
 			// Don't let them grab the minigun, tesla, or random weapon if they're downed or reviving
 			//	due to weapon switching issues.
-			if ( ( self.powerup_name == "minigun" || self.powerup_name == "tesla" ) && players[ i ] maps/mp/zombies/_zm_laststand::player_is_in_laststand() || players[ i ] maps/mp/zombies/_zm_laststand::player_is_in_laststand() && ( self.powerup_name == "random_weapon" || self.powerup_name == "meat_stink" ) || players[ i ] usebuttonpressed() && players[ i ] in_revive_trigger() )
+			if ( ( self.powerup_name == "minigun" || self.powerup_name == "tesla" ) && players[ i ] maps\mp\zombies\_zm_laststand::player_is_in_laststand() || players[ i ] maps\mp\zombies\_zm_laststand::player_is_in_laststand() && ( self.powerup_name == "random_weapon" || self.powerup_name == "meat_stink" ) || players[ i ] usebuttonpressed() && players[ i ] in_revive_trigger() )
 			{
 				i++;
 				continue;
 			}
-			if ( !is_true( self.can_pick_up_in_last_stand ) && players[ i ] maps/mp/zombies/_zm_laststand::player_is_in_laststand() )
+			if ( !is_true( self.can_pick_up_in_last_stand ) && players[ i ] maps\mp\zombies\_zm_laststand::player_is_in_laststand() )
 			{
 				i++;
 				continue;
@@ -182,7 +182,7 @@ powerup_grab(powerup_team) //checked partially changed to match cerberus output
 					case "carpenter":
 						if ( is_classic() )
 						{
-							players[ i ] thread maps/mp/zombies/_zm_pers_upgrades::persistent_carpenter_ability_check();
+							players[ i ] thread maps\mp\zombies\_zm_pers_upgrades::persistent_carpenter_ability_check();
 						}
 						if ( isdefined( level.use_new_carpenter_func ) )
 						{
@@ -232,19 +232,19 @@ powerup_grab(powerup_team) //checked partially changed to match cerberus output
 						level thread teller_withdrawl( self ,players[ i ] );
 						break;
 					case "weapon_upgrade":
-						level thread scripts/zm/ze_pack_powerup::weapon_upgrade_powerup( self, players[i] );
+						level thread scripts\zm\ze_pack_powerup::weapon_upgrade_powerup( self, players[i] );
 						break;
 					case "invis_zomb":
-						level thread scripts/zm/ze_invis_zombie_powerup::invis_zomb_powerup( self, players[i] );
+						level thread scripts\zm\ze_invis_zombie_powerup::invis_zomb_powerup( self, players[i] );
 						break;
 					case "snail":
-						level thread scripts/zm/ze_snail_powerup::snail_powerup( self, players[i] );
+						level thread scripts\zm\ze_snail_powerup::snail_powerup( self, players[i] );
 						break;
 					case "broken_gun":
-						level thread scripts/zm/ze_broken_gun_powerup::broken_gun_powerup( self, players[i] );
+						level thread scripts\zm\ze_broken_gun_powerup::broken_gun_powerup( self, players[i] );
 						break;
 					case "bottom_clip":
-						level thread scripts/zm/ze_bottom_clip_powerup::bottom_clip_powerup( self, players[i] );
+						level thread scripts\zm\ze_bottom_clip_powerup::bottom_clip_powerup( self, players[i] );
 						break;
 					default:
 						if ( IsDefined( level._zombiemode_powerup_grab ) )
@@ -259,10 +259,10 @@ powerup_grab(powerup_team) //checked partially changed to match cerberus output
 				if( should_award_stat ( self.powerup_name )) //don't do this for things that aren't really a powerup
 				{
 					//track # of picked up powerups/drops for the player
-					players[i] maps/mp/zombies/_zm_stats::increment_client_stat( "drops" );
-					players[i] maps/mp/zombies/_zm_stats::increment_player_stat( "drops" );
-					players[i] maps/mp/zombies/_zm_stats::increment_client_stat( self.powerup_name + "_pickedup" );
-					players[i] maps/mp/zombies/_zm_stats::increment_player_stat( self.powerup_name + "_pickedup" );
+					players[i] maps\mp\zombies\_zm_stats::increment_client_stat( "drops" );
+					players[i] maps\mp\zombies\_zm_stats::increment_player_stat( "drops" );
+					players[i] maps\mp\zombies\_zm_stats::increment_client_stat( self.powerup_name + "_pickedup" );
+					players[i] maps\mp\zombies\_zm_stats::increment_player_stat( self.powerup_name + "_pickedup" );
 				}
 				
 				if ( self.solo )
@@ -323,7 +323,7 @@ powerup_grab(powerup_team) //checked partially changed to match cerberus output
 						}
 					}
 				}
-				level thread maps/mp/zombies/_zm_audio_announcer::leaderdialog( self.powerup_name, self.power_up_grab_player.pers[ "team" ] );
+				level thread maps\mp\zombies\_zm_audio_announcer::leaderdialog( self.powerup_name, self.power_up_grab_player.pers[ "team" ] );
 				self powerup_delete();
 				self notify( "powerup_grabbed" );
 			}
@@ -354,7 +354,7 @@ zombie_death_points( origin, mod, hit_location, attacker, zombie, team ) //check
 			level thread zombie_delay_powerup_drop( origin, attacker );
 		}
 	}
-	level thread maps/mp/zombies/_zm_audio::player_zombie_kill_vox( hit_location, attacker, mod, zombie );
+	level thread maps\mp\zombies\_zm_audio::player_zombie_kill_vox( hit_location, attacker, mod, zombie );
 	event = "death";
 	if ( isDefined( zombie.damageweapon ) && issubstr( zombie.damageweapon, "knife_ballistic_" ) || mod == "MOD_MELEE" && mod == "MOD_IMPACT" )
 	{
@@ -369,20 +369,20 @@ zombie_death_points( origin, mod, hit_location, attacker, zombie, team ) //check
 	{
 		return;
 	}
-	attacker maps/mp/zombies/_zm_score::player_add_points( event, mod, hit_location, undefined, team, attacker.currentweapon );
+	attacker maps\mp\zombies\_zm_score::player_add_points( event, mod, hit_location, undefined, team, attacker.currentweapon );
 }
 
 zombie_delay_powerup_drop( origin, attacker ) //checked matches cerberus output
 {
 	wait_network_frame(); 
-	level thread maps/mp/zombies/_zm_powerups::powerup_drop( origin );
+	level thread maps\mp\zombies\_zm_powerups::powerup_drop( origin );
 	if(attacker perks_available() && RandomInt(8) == 0 )
-		level thread maps/mp/zombies/_zm_powerups::specific_powerup_drop( "free_perk", origin );
+		level thread maps\mp\zombies\_zm_powerups::specific_powerup_drop( "free_perk", origin );
 }
 
 perks_available()
 {
-	vending_triggers = scripts/zm/bsm_main::getperks();
+	vending_triggers = scripts\zm\bsm_main::getperks();
 	perks = [];
 	i = 0;
 	while ( i < vending_triggers.size )
@@ -411,13 +411,13 @@ perks_available()
 
 free_perk_powerup( item, player ) //checked changed to match cerberus output
 {
-	player maps/mp/zombies/_zm_perks::give_random_perk();
+	player maps\mp\zombies\_zm_perks::give_random_perk();
 }
 
 give_random_perk() //checked partially changed to match cerberus output
 {
 	random_perk = undefined;
-	vending_triggers = scripts/zm/bsm_main::getperks();
+	vending_triggers = scripts\zm\bsm_main::getperks();
 	perks = [];
 	i = 0;
 	while ( i < vending_triggers.size )
@@ -455,7 +455,7 @@ give_random_perk() //checked partially changed to match cerberus output
 can_have_perk()
 {
 	random_perk = undefined;
-	vending_triggers = scripts/zm/bsm_main::getperks();
+	vending_triggers = scripts\zm\bsm_main::getperks();
 	perks = [];
 	i = 0;
 	while ( i < vending_triggers.size )
