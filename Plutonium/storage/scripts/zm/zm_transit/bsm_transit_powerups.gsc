@@ -1,11 +1,11 @@
-#include maps/mp/zombies/_zm_utility;
-#include common_scripts/utility;
-#include maps/mp/_utility;
-#include maps/mp/zombies/_zm_powerups;
+#include maps\mp\zombies\_zm_utility;
+#include common_scripts\utility;
+#include maps\mp\_utility;
+#include maps\mp\zombies\_zm_powerups;
 
 main()
 {
-	replacefunc(maps/mp/zombies/_zm_powerups::powerup_drop, ::powerup_drop);
+	replacefunc(maps\mp\zombies\_zm_powerups::powerup_drop, ::powerup_drop);
 }
 
 powerup_drop( drop_point ) //modified function
@@ -33,7 +33,7 @@ powerup_drop( drop_point ) //modified function
 	}
 	playable_area = getentarray( "player_volume", "script_noteworthy" );
 	level.powerup_drop_count++;
-	powerup = maps/mp/zombies/_zm_net::network_safe_spawn( "powerup", 1, "script_model", drop_point + vectorScale( ( 0, 0, 1 ), 40 ) );
+	powerup = maps\mp\zombies\_zm_net::network_safe_spawn( "powerup", 1, "script_model", drop_point + vectorScale( ( 0, 0, 1 ), 40 ) );
 	valid_drop = 0;
 	for ( i = 0; i < playable_area.size; i++ )
 	{

@@ -1,19 +1,19 @@
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/_utility;
-#include common_scripts/utility;
-#include maps/mp/zm_transit_standard_station;
-#include maps/mp/zombies/_zm_ai_avogadro;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\_utility;
+#include common_scripts\utility;
+#include maps\mp\zm_transit_standard_station;
+#include maps\mp\zombies\_zm_ai_avogadro;
 
 main()
 {
 	if(GetDvar("customMap") == "vanilla")
 		return;
-	replacefunc(maps/mp/zombies/_zm_ai_avogadro::avogadro_spawning_logic, ::avogadro_spawning_logic);
-	replacefunc(maps/mp/zm_transit_utility::solo_tombstone_removal, ::solo_tombstone_removal);
-	replacefunc(maps/mp/zm_transit_classic::diner_hatch_access, ::diner_hatch_access);
-	replacefunc(maps/mp/zm_transit_standard_farm::farm_treasure_chest_init, ::treasure_chest_init);
-	replacefunc(maps/mp/zm_transit_standard_station::station_treasure_chest_init, ::treasure_chest_init);
-	replacefunc(maps/mp/zm_transit_classic::init_bus, ::init_bus);
+	replacefunc(maps\mp\zombies\_zm_ai_avogadro::avogadro_spawning_logic, ::avogadro_spawning_logic);
+	replacefunc(maps\mp\zm_transit_utility::solo_tombstone_removal, ::solo_tombstone_removal);
+	replacefunc(maps\mp\zm_transit_classic::diner_hatch_access, ::diner_hatch_access);
+	replacefunc(maps\mp\zm_transit_standard_farm::farm_treasure_chest_init, ::treasure_chest_init);
+	replacefunc(maps\mp\zm_transit_standard_station::station_treasure_chest_init, ::treasure_chest_init);
+	replacefunc(maps\mp\zm_transit_classic::init_bus, ::init_bus);
 }
 
 init()
@@ -22,7 +22,7 @@ init()
 		return;
 	level thread override_zombie_count();
 	flag_wait( "initial_blackscreen_passed" );
-	maps/mp/zombies/_zm_game_module::turn_power_on_and_open_doors(); //added to turn on the power and open doors
+	maps\mp\zombies\_zm_game_module::turn_power_on_and_open_doors(); //added to turn on the power and open doors
 }
 
 init_bus() //checked matches cerberus output
@@ -60,12 +60,12 @@ diner_hatch_access() //modified function
 	diner_hatch show();
 	diner_hatch_col delete();
 	diner_hatch_mantle.origin = diner_hatch_mantle.start_origin;
-	player maps/mp/zombies/_zm_buildables::track_placed_buildables( "dinerhatch" );
+	self maps\mp\zombies\_zm_buildables::track_placed_buildables( "dinerhatch" );
 }
 
 main_busdepot()
 {
-	maps/mp/gametypes_zm/_zm_gametype::setup_standard_objects( "station" );
+	maps\mp\gametypes_zm\_zm_gametype::setup_standard_objects( "station" );
 	level.enemy_location_override_func = ::enemy_location_override;
 	collision = spawn( "script_model", ( -6896, 4744, 0 ), 1 );
 	collision setmodel( "zm_collision_transit_busdepot_survival" );

@@ -1,22 +1,22 @@
-#include maps/mp/zombies/_zm;
-#include maps/mp/zombies/_zm_perks;
-#include maps/mp/_visionset_mgr;
-#include maps/mp/zombies/_zm_score;
-#include maps/mp/zombies/_zm_stats;
-#include maps/mp/_demo;
-#include maps/mp/zombies/_zm_audio;
-#include maps/mp/zombies/_zm_pers_upgrades_functions;
-#include maps/mp/zombies/_zm_power;
-#include maps/mp/zombies/_zm_laststand;
-#include maps/mp/zombies/_zm_weapons;
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/_utility;
-#include common_scripts/utility;
-#include maps/mp/zombies/_zm_magicbox;
+#include maps\mp\zombies\_zm;
+#include maps\mp\zombies\_zm_perks;
+#include maps\mp\_visionset_mgr;
+#include maps\mp\zombies\_zm_score;
+#include maps\mp\zombies\_zm_stats;
+#include maps\mp\_demo;
+#include maps\mp\zombies\_zm_audio;
+#include maps\mp\zombies\_zm_pers_upgrades_functions;
+#include maps\mp\zombies\_zm_power;
+#include maps\mp\zombies\_zm_laststand;
+#include maps\mp\zombies\_zm_weapons;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\_utility;
+#include common_scripts\utility;
+#include maps\mp\zombies\_zm_magicbox;
 
 main()
 {
-	replacefunc(maps/mp/zombies/_zm_perks::perk_machine_spawn_init, ::perk_machine_spawn_init);
+	replacefunc(maps\mp\zombies\_zm_perks::perk_machine_spawn_init, ::perk_machine_spawn_init);
 }
 
 extra_perk_spawns() //custom function

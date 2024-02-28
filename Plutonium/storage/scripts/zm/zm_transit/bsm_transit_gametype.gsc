@@ -1,32 +1,32 @@
-#include maps/mp/zombies/_zm_spawner;
-#include maps/mp/zombies/_zm_game_module;
-#include maps/mp/zombies/_zm_pers_upgrades_functions;
-#include maps/mp/zombies/_zm_blockers;
-#include maps/mp/gametypes_zm/_spawning;
-#include maps/mp/zombies/_zm_stats;
-#include maps/mp/gametypes_zm/_hud;
-#include maps/mp/zombies/_zm_audio_announcer;
-#include maps/mp/zombies/_zm_audio;
-#include maps/mp/zombies/_zm_laststand;
-#include maps/mp/gametypes_zm/_globallogic_ui;
-#include maps/mp/gametypes_zm/_hud_message;
-#include maps/mp/gametypes_zm/_globallogic_score;
-#include maps/mp/gametypes_zm/_globallogic_defaults;
-#include maps/mp/gametypes_zm/_gameobjects;
-#include maps/mp/gametypes_zm/_zm_gametype;
-#include maps/mp/gametypes_zm/_weapons;
-#include maps/mp/gametypes_zm/_callbacksetup;
-#include maps/mp/zombies/_zm_utility;
-#include common_scripts/utility;
-#include maps/mp/gametypes_zm/_hud_util;
-#include maps/mp/_utility;
+#include maps\mp\zombies\_zm_spawner;
+#include maps\mp\zombies\_zm_game_module;
+#include maps\mp\zombies\_zm_pers_upgrades_functions;
+#include maps\mp\zombies\_zm_blockers;
+#include maps\mp\gametypes_zm\_spawning;
+#include maps\mp\zombies\_zm_stats;
+#include maps\mp\gametypes_zm\_hud;
+#include maps\mp\zombies\_zm_audio_announcer;
+#include maps\mp\zombies\_zm_audio;
+#include maps\mp\zombies\_zm_laststand;
+#include maps\mp\gametypes_zm\_globallogic_ui;
+#include maps\mp\gametypes_zm\_hud_message;
+#include maps\mp\gametypes_zm\_globallogic_score;
+#include maps\mp\gametypes_zm\_globallogic_defaults;
+#include maps\mp\gametypes_zm\_gameobjects;
+#include maps\mp\gametypes_zm\_zm_gametype;
+#include maps\mp\gametypes_zm\_weapons;
+#include maps\mp\gametypes_zm\_callbacksetup;
+#include maps\mp\zombies\_zm_utility;
+#include common_scripts\utility;
+#include maps\mp\gametypes_zm\_hud_util;
+#include maps\mp\_utility;
 
 main()
 {
-	replacefunc(maps/mp/gametypes_zm/_zm_gametype::game_objects_allowed, ::game_objects_allowed);
-	replacefunc(maps/mp/gametypes_zm/_zm_gametype::onspawnplayer, ::onspawnplayer);
-	replacefunc(maps/mp/gametypes_zm/_zm_gametype::get_player_spawns_for_gametype, ::get_player_spawns_for_gametype);
-	replacefunc(maps/mp/gametypes_zm/_zm_gametype::add_map_location_gamemode, ::add_map_location_gamemode);
+	replacefunc(maps\mp\gametypes_zm\_zm_gametype::game_objects_allowed, ::game_objects_allowed);
+	replacefunc(maps\mp\gametypes_zm\_zm_gametype::onspawnplayer, ::onspawnplayer);
+	replacefunc(maps\mp\gametypes_zm\_zm_gametype::get_player_spawns_for_gametype, ::get_player_spawns_for_gametype);
+	replacefunc(maps\mp\gametypes_zm\_zm_gametype::add_map_location_gamemode, ::add_map_location_gamemode);
 	init_spawnpoints_for_custom_survival_maps();
 }
 
@@ -50,7 +50,7 @@ add_map_location_gamemode( mode, location, precache_func, main_func ) //checked 
 	level.gamemode_map_location_main[ mode ][ location ] = main_func;
 	if(mode == "zstandard" && location == "transit")
 	{
-		level.gamemode_map_location_main[ mode ][ location ] = scripts/zm/zm_transit/bsm_transit_main::main_busdepot;
+		level.gamemode_map_location_main[ mode ][ location ] = scripts\zm\zm_transit\bsm_transit_main::main_busdepot;
 	}
 }
 
@@ -68,8 +68,8 @@ game_objects_allowed( mode, location ) //checked partially changed to match cerb
 	{
 		if ( isDefined( entities[ i ].script_gameobjectname ) )
 		{
-			isallowed = maps/mp/gametypes_zm/_gameobjects::entity_is_allowed( entities[ i ], allowed );
-			isvalidlocation = maps/mp/gametypes_zm/_gameobjects::location_is_allowed( entities[ i ], location );
+			isallowed = maps\mp\gametypes_zm\_gameobjects::entity_is_allowed( entities[ i ], allowed );
+			isvalidlocation = maps\mp\gametypes_zm\_gameobjects::location_is_allowed( entities[ i ], location );
 			if ( !isallowed || !isvalidlocation && !is_classic() )
 			{
 				if ( isDefined( entities[ i ].spawnflags ) && entities[ i ].spawnflags == 1 )
@@ -794,7 +794,7 @@ onspawnplayer( predictedspawn ) //modified function
 	}
 	if ( flag( "begin_spawning" ) )
 	{
-		spawnpoint = maps/mp/zombies/_zm::check_for_valid_spawn_near_team( self, 1 );
+		spawnpoint = maps\mp\zombies\_zm::check_for_valid_spawn_near_team( self, 1 );
 	}
 	if ( !isDefined( spawnpoint ) )
 	{
@@ -863,11 +863,11 @@ onspawnplayer( predictedspawn ) //modified function
 	}
 	self spawn( spawnpoint.origin, spawnpoint.angles, "zsurvival" );
 	self.entity_num = self getentitynumber();
-	self thread maps/mp/zombies/_zm::onplayerspawned();
-	self thread maps/mp/zombies/_zm::player_revive_monitor();
+	self thread maps\mp\zombies\_zm::onplayerspawned();
+	self thread maps\mp\zombies\_zm::player_revive_monitor();
 	self freezecontrols( 1 );
 	self.spectator_respawn = spawnpoint;
-	self.score = self maps/mp/gametypes_zm/_globallogic_score::getpersstat( "score" );
+	self.score = self maps\mp\gametypes_zm\_globallogic_score::getpersstat( "score" );
 	self.pers[ "participation" ] = 0;
 	
 	self.score_total = self.score;
@@ -875,7 +875,7 @@ onspawnplayer( predictedspawn ) //modified function
 	self.player_initialized = 0;
 	self.zombification_time = 0;
 	self.enabletext = 1;
-	self thread maps/mp/zombies/_zm_blockers::rebuild_barrier_reward_reset();
+	self thread maps\mp\zombies\_zm_blockers::rebuild_barrier_reward_reset();
 	if ( isDefined( level.host_ended_game ) && !level.host_ended_game )
 	{
 		self freeze_player_controls( 0 );
@@ -886,7 +886,7 @@ onspawnplayer( predictedspawn ) //modified function
 		spawn_in_spectate = [[ level.game_mode_spawn_player_logic ]]();
 		if ( spawn_in_spectate )
 		{
-			self delay_thread( 0.05, maps/mp/zombies/_zm::spawnspectator );
+			self delay_thread( 0.05, maps\mp\zombies\_zm::spawnspectator );
 		}
 	}
 	pixendevent();

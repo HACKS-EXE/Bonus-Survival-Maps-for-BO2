@@ -1,28 +1,28 @@
-#include maps/mp/zombies/_zm_stats;
-#include maps/mp/_demo;
-#include maps/mp/zombies/_zm_audio;
-#include maps/mp/zombies/_zm_score;
-#include maps/mp/zombies/_zm_pers_upgrades_functions;
-#include maps/mp/zombies/_zm_audio_announcer;
-#include maps/mp/zombies/_zm_unitrigger;
-#include maps/mp/zombies/_zm_weapons;
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/_utility;
-#include common_scripts/utility;
-#include maps/mp/zombies/_zm_magicbox_lock;
-#include maps/mp/zombies/_zm_magicbox;
+#include maps\mp\zombies\_zm_stats;
+#include maps\mp\_demo;
+#include maps\mp\zombies\_zm_audio;
+#include maps\mp\zombies\_zm_score;
+#include maps\mp\zombies\_zm_pers_upgrades_functions;
+#include maps\mp\zombies\_zm_audio_announcer;
+#include maps\mp\zombies\_zm_unitrigger;
+#include maps\mp\zombies\_zm_weapons;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\_utility;
+#include common_scripts\utility;
+#include maps\mp\zombies\_zm_magicbox_lock;
+#include maps\mp\zombies\_zm_magicbox;
 
 main()
 {
-	replacefunc(maps/mp/zombies/_zm_magicbox::init, ::init_magicbox);
-	replacefunc(maps/mp/zombies/_zm_magicbox::get_chest_pieces, ::get_chest_pieces);
+	replacefunc(maps\mp\zombies\_zm_magicbox::init, ::init_magicbox);
+	replacefunc(maps\mp\zombies\_zm_magicbox::get_chest_pieces, ::get_chest_pieces);
 }
 
 init_magicbox() //modified function
 {
 	//begin debug code
 	level.custom_zm_magicbox_loaded = 1;
-	maps/mp/zombies/_zm_bot::init();
+	maps\mp\zombies\_zm_bot::init();
 	if ( !isDefined( level.debugLogging_zm_magicbox ) )
 	{
 		level.debugLogging_zm_magicbox = 0;
@@ -41,7 +41,7 @@ init_magicbox() //modified function
 	
 	if ( isDefined( level.using_locked_magicbox ) && level.using_locked_magicbox )
 	{
-		maps/mp/zombies/_zm_magicbox_lock::init();
+		maps\mp\zombies\_zm_magicbox_lock::init();
 	}
 	if ( is_classic() )
 	{
@@ -161,7 +161,7 @@ init_magicbox() //modified function
 			chest1 = getstruct( "depot_chest", "script_noteworthy" );
 			level.chests = [];
 			level.chests[ level.chests.size ] = chest1;
-			maps/mp/zombies/_zm_magicbox::treasure_chest_init( "depot_chest" );
+			maps\mp\zombies\_zm_magicbox::treasure_chest_init( "depot_chest" );
 		}
 	}
 	if ( level.createfx_enabled )
