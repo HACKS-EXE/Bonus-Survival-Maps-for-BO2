@@ -1,20 +1,20 @@
-#include maps/mp/zombies/_zm_utility;
-#include common_scripts/utility;
-#include maps/mp/_utility;
-#include maps/mp/zombies/_zm_perks;
+#include maps\mp\zombies\_zm_utility;
+#include common_scripts\utility;
+#include maps\mp\_utility;
+#include maps\mp\zombies\_zm_perks;
 
 main()
 {
 	if(GetDvar("customMap") == "vanilla")
 		return;
-	//replacefunc(maps/mp/zombies/_zm_perk_divetonuke::enable_divetonuke_perk_for_level, ::enable_divetonuke_perk_for_level);
-	//maps/mp/zombies/_zm_perk_divetonuke::enable_divetonuke_perk_for_level();
+	replacefunc(scripts\zm\zm_prison\PHD_FLOPPER\divetonuke_perk::divetonuke_level, scripts\zm\zm_prison\bsm_prison_perk_phd::divetonuke_level);
+	scripts\zm\zm_prison\PHD_FLOPPER\divetonuke_perk::divetonuke_level();
 }
 
-enable_divetonuke_perk_for_level()
+divetonuke_level()
 {
-	maps/mp/zombies/_zm_perks::register_perk_basic_info( "specialty_flakjacket", "divetonuke", 2000, &"ZOMBIE_PERK_DIVETONUKE", "zombie_perk_bottle_jugg" );
-	maps/mp/zombies/_zm_perks::register_perk_machine( "specialty_flakjacket", ::divetonuke_perk_machine_setup, ::divetonuke_perk_machine_think );
+	maps\mp\zombies\_zm_perks::register_perk_basic_info( "specialty_flakjacket", "divetonuke", 2000, &"ZOMBIE_PERK_DIVETONUKE", "zombie_perk_bottle_jugg" ); //Caso coloque esse código para rodar em um ff custom com itens do Phd troque zombie_perk_bottle_jugg por zombie_perk_bottle_nuke
+	maps\mp\zombies\_zm_perks::register_perk_machine( "specialty_flakjacket", ::divetonuke_perk_machine_setup, ::divetonuke_perk_machine_think ); //Case you put this code to run in a custom ff with Phd items change zombie_perk_bottle_jugg for zombie_perk_bottle_nuke
 }
 
 init_divetonuke() //checked matches cerberus output

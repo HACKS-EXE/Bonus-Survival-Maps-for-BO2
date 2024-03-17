@@ -1,25 +1,24 @@
-#include maps/mp/zombies/_zm_weap_cymbal_monkey;
-#include maps/mp/zombies/_zm_weapons;
-#include maps/mp/zombies/_zm_stats;
-#include maps/mp/zombies/_zm_equipment;
-#include maps/mp/zombies/_zm_score;
-#include maps/mp/zombies/_zm_pers_upgrades_functions;
-#include maps/mp/zombies/_zm_melee_weapon;
-#include maps/mp/zombies/_zm_unitrigger;
-#include maps/mp/zombies/_zm_audio;
-#include maps/mp/gametypes_zm/_weapons;
-#include maps/mp/gametypes_zm/_weaponobjects;
-#include maps/mp/zombies/_zm_magicbox;
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/_utility;
-#include common_scripts/utility;
-#include maps/mp/zombies/_zm_weap_claymore;
-#include maps/mp/zombies/_zm_weap_ballistic_knife;
-#include maps/mp/zombies/_zm_weapons;
+#include maps\mp\zombies\_zm_weap_cymbal_monkey;
+#include maps\mp\zombies\_zm_stats;
+#include maps\mp\zombies\_zm_equipment;
+#include maps\mp\zombies\_zm_score;
+#include maps\mp\zombies\_zm_pers_upgrades_functions;
+#include maps\mp\zombies\_zm_melee_weapon;
+#include maps\mp\zombies\_zm_unitrigger;
+#include maps\mp\zombies\_zm_audio;
+#include maps\mp\gametypes_zm\_weapons;
+#include maps\mp\gametypes_zm\_weaponobjects;
+#include maps\mp\zombies\_zm_magicbox;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\_utility;
+#include common_scripts\utility;
+#include maps\mp\zombies\_zm_weap_claymore;
+#include maps\mp\zombies\_zm_weap_ballistic_knife;
+#include maps\mp\zombies\_zm_weapons;
 
 main()
 {
-	replacefunc(maps/mp/zombies/_zm_weapons::init_spawnable_weapon_upgrade, ::init_spawnable_weapon_upgrade);
+	replacefunc(maps\mp\zombies\_zm_weapons::init_spawnable_weapon_upgrade, ::init_spawnable_weapon_upgrade);
 	precacheEffectsForWeapons();
 }
 
@@ -211,24 +210,24 @@ init_spawnable_weapon_upgrade()
 		}
 		unitrigger_stub.zombie_weapon_upgrade = spawn_list[ i ].zombie_weapon_upgrade;
 		unitrigger_stub.clientfieldname = clientfieldname;
-		maps/mp/zombies/_zm_unitrigger::unitrigger_force_per_player_triggers( unitrigger_stub, 1 );
+		maps\mp\zombies\_zm_unitrigger::unitrigger_force_per_player_triggers( unitrigger_stub, 1 );
 		if ( is_melee_weapon( unitrigger_stub.zombie_weapon_upgrade ) )
 		{
 			if ( unitrigger_stub.zombie_weapon_upgrade == "tazer_knuckles_zm" && isDefined( level.taser_trig_adjustment ) )
 			{
 				unitrigger_stub.origin += level.taser_trig_adjustment;
 			}
-			maps/mp/zombies/_zm_unitrigger::register_static_unitrigger( unitrigger_stub, ::weapon_spawn_think );
+			maps\mp\zombies\_zm_unitrigger::register_static_unitrigger( unitrigger_stub, ::weapon_spawn_think );
 		}
 		else if ( unitrigger_stub.zombie_weapon_upgrade == "claymore_zm" )
 		{
 			unitrigger_stub.prompt_and_visibility_func = ::claymore_unitrigger_update_prompt;
-			maps/mp/zombies/_zm_unitrigger::register_static_unitrigger( unitrigger_stub, ::buy_claymores );
+			maps\mp\zombies\_zm_unitrigger::register_static_unitrigger( unitrigger_stub, ::buy_claymores );
 		}
 		else
 		{
 			unitrigger_stub.prompt_and_visibility_func = ::wall_weapon_update_prompt;
-			maps/mp/zombies/_zm_unitrigger::register_static_unitrigger( unitrigger_stub, ::weapon_spawn_think );
+			maps\mp\zombies\_zm_unitrigger::register_static_unitrigger( unitrigger_stub, ::weapon_spawn_think );
 		}
 		spawn_list[ i ].trigger_stub = unitrigger_stub;
 		i++;
@@ -263,7 +262,7 @@ customWallbuy(weapon, displayName, cost, ammoCost, origin, angles, fx) //custom 
 
 			if(!player has_weapon_or_upgrade( weapon ) && player.score >= cost)
 			{
-				player maps/mp/zombies/_zm_score::minus_to_player_score(cost,1);
+				player maps\mp\zombies\_zm_score::minus_to_player_score(cost,1);
 				player playsound("zmb_cha_ching");
 				if(weapon == "one_inch_punch_zm" && isdefined(level.oneInchPunchGiveFunc))
 				{
@@ -279,7 +278,7 @@ customWallbuy(weapon, displayName, cost, ammoCost, origin, angles, fx) //custom 
 				{
 					if(player ammo_give(get_upgrade_weapon(weapon)))
 					{
-						player maps/mp/zombies/_zm_score::minus_to_player_score(4500,1);
+						player maps\mp\zombies\_zm_score::minus_to_player_score(4500,1);
 						player playsound("zmb_cha_ching");
 						wait 3;
 					}
@@ -288,7 +287,7 @@ customWallbuy(weapon, displayName, cost, ammoCost, origin, angles, fx) //custom 
 				{
 					if(player ammo_give(weapon))
 					{
-						player maps/mp/zombies/_zm_score::minus_to_player_score(ammoCost,1);
+						player maps\mp\zombies\_zm_score::minus_to_player_score(ammoCost,1);
 						player playsound("zmb_cha_ching");
 						wait 3;
 					}

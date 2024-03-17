@@ -1,18 +1,18 @@
-#include maps/mp/zombies/_zm_stats;
-#include maps/mp/zombies/_zm_score;
-#include maps/mp/zombies/_zm_weapons;
-#include maps/mp/zombies/_zm_net;
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/_utility;
-#include common_scripts/utility;
-#include maps/mp/zombies/_zm_weap_tomahawk;
-#include maps/mp/zm_alcatraz_weap_quest;
+#include maps\mp\zombies\_zm_stats;
+#include maps\mp\zombies\_zm_score;
+#include maps\mp\zombies\_zm_weapons;
+#include maps\mp\zombies\_zm_net;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\_utility;
+#include common_scripts\utility;
+#include maps\mp\zombies\_zm_weap_tomahawk;
+#include maps\mp\zm_alcatraz_weap_quest;
 
 main()
 {
 	if(GetDvar("customMap") != "vanilla")
 	{
-		replacefunc(maps/mp/zombies/_zm_weap_tomahawk::init, ::init_tomahawk);
+		replacefunc(maps\mp\zombies\_zm_weap_tomahawk::init, ::init_tomahawk);
 	}
 }
 
@@ -23,11 +23,11 @@ init_tomahawk() //checked matches cerberus output
 	registerclientfield( "scriptmover", "play_tomahawk_fx", 9000, 2, "int" );
 	registerclientfield( "actor", "play_tomahawk_hit_sound", 9000, 1, "int" );
 	onplayerconnect_callback( ::tomahawk_on_player_connect );
-	maps/mp/zombies/_zm_weapons::include_zombie_weapon( "bouncing_tomahawk_zm", 0 );
-	maps/mp/zombies/_zm_weapons::include_zombie_weapon( "upgraded_tomahawk_zm", 0 );
-	maps/mp/zombies/_zm_weapons::include_zombie_weapon( "zombie_tomahawk_flourish", 0 );
-	maps/mp/zombies/_zm_weapons::add_zombie_weapon( "bouncing_tomahawk_zm", "zombie_tomahawk_flourish", &"ZOMBIE_WEAPON_SATCHEL_2000", 2000, "wpck_monkey", "", undefined, 1 );
-	maps/mp/zombies/_zm_weapons::add_zombie_weapon( "upgraded_tomahawk_zm", "zombie_tomahawk_flourish", &"ZOMBIE_WEAPON_SATCHEL_2000", 2000, "wpck_monkey", "", undefined, 1 );
+	maps\mp\zombies\_zm_weapons::include_zombie_weapon( "bouncing_tomahawk_zm", 0 );
+	maps\mp\zombies\_zm_weapons::include_zombie_weapon( "upgraded_tomahawk_zm", 0 );
+	maps\mp\zombies\_zm_weapons::include_zombie_weapon( "zombie_tomahawk_flourish", 0 );
+	maps\mp\zombies\_zm_weapons::add_zombie_weapon( "bouncing_tomahawk_zm", "zombie_tomahawk_flourish", &"ZOMBIE_WEAPON_SATCHEL_2000", 2000, "wpck_monkey", "", undefined, 1 );
+	maps\mp\zombies\_zm_weapons::add_zombie_weapon( "upgraded_tomahawk_zm", "zombie_tomahawk_flourish", &"ZOMBIE_WEAPON_SATCHEL_2000", 2000, "wpck_monkey", "", undefined, 1 );
 	level thread tomahawk_pickup();
 	level.zombie_weapons_no_max_ammo = [];
 	level.zombie_weapons_no_max_ammo[ "bouncing_tomahawk_zm" ] = 1;
@@ -89,7 +89,7 @@ tomahawk_pickup_trigger() //checked changed to match cerberus output
 			player disable_player_move_states( 1 );
 			gun = player getcurrentweapon();
 			level notify( "bouncing_tomahawk_zm_aquired" );
-			player maps/mp/zombies/_zm_stats::increment_client_stat( "prison_tomahawk_acquired", 0 );
+			player maps\mp\zombies\_zm_stats::increment_client_stat( "prison_tomahawk_acquired", 0 );
 			player giveweapon( "zombie_tomahawk_flourish" );
 			if ( isDefined ( level.customMap ) && level.customMap == "vanilla" )
 			{
@@ -129,7 +129,7 @@ tomahawk_pickup_trigger() //checked changed to match cerberus output
 				gun = player getcurrentweapon();
 				level notify( "bouncing_tomahawk_zm_aquired" );
 				player notify( "player_obtained_tomahawk" );
-				player maps/mp/zombies/_zm_stats::increment_client_stat( "prison_tomahawk_acquired", 0 );
+				player maps\mp\zombies\_zm_stats::increment_client_stat( "prison_tomahawk_acquired", 0 );
 				player giveweapon( "zombie_tomahawk_flourish" );
 				player switchtoweapon( "zombie_tomahawk_flourish" );
 				player waittill_any( "player_downed", "weapon_change_complete" );
@@ -212,7 +212,7 @@ tomahawk_upgrade_modified()
 		self.tomahawk_upgrade_kills++;
 	}
 	wait 1;
-	level thread maps/mp/zombies/_zm_audio::sndmusicstingerevent( "quest_generic" );
+	level thread maps\mp\zombies\_zm_audio::sndmusicstingerevent( "quest_generic" );
 	e_org = spawn( "script_origin", self.origin + vectorScale( ( 0, 0, 1 ), 64 ) );
 	e_org playsoundwithnotify( "zmb_easteregg_scream", "easteregg_scream_complete" );
 	e_org waittill( "easteregg_scream_complete" );
@@ -232,7 +232,7 @@ tomahawk_upgrade_modified()
 	self takeweapon( "bouncing_tomahawk_zm" );
 	self set_player_tactical_grenade( "none" );
 	self notify( "tomahawk_upgraded_swap" );
-	level thread maps/mp/zombies/_zm_audio::sndmusicstingerevent( "quest_generic" );
+	level thread maps\mp\zombies\_zm_audio::sndmusicstingerevent( "quest_generic" );
 	e_org = spawn( "script_origin", self.origin + vectorScale( ( 0, 0, 1 ), 64 ) );
 	e_org playsoundwithnotify( "zmb_easteregg_scream", "easteregg_scream_complete" );
 	e_org waittill( "easteregg_scream_complete" );
@@ -294,7 +294,7 @@ modified_hellhound()
 			}
 			flag_set( "soul_catchers_charged" );
 			level notify( "soul_catchers_charged" );
-			level thread maps/mp/zombies/_zm_audio::sndmusicstingerevent( "quest_generic" );
+			level thread maps\mp\zombies\_zm_audio::sndmusicstingerevent( "quest_generic" );
 			return;
 		}
 		else

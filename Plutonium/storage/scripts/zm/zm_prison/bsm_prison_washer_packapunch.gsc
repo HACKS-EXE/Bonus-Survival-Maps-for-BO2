@@ -1,15 +1,15 @@
-#include maps/mp/zombies/_zm_utility;
-#include common_scripts/utility;
-#include maps/mp/_utility;
-#include maps/mp/zm_alcatraz_sq;
-#include maps/mp/zombies/_zm_perks;
-#include maps/mp/zombies/_zm_weapons;
+#include maps\mp\zombies\_zm_utility;
+#include common_scripts\utility;
+#include maps\mp\_utility;
+#include maps\mp\zm_alcatraz_sq;
+#include maps\mp\zombies\_zm_perks;
+#include maps\mp\zombies\_zm_weapons;
 
 main()
 {
 	if(GetDvar("customMap") != "showers")
 		return;
-	replacefunc(maps/mp/zm_alcatraz_sq::setup_dryer_challenge, ::setup_dryer_challenge);
+	replacefunc(maps\mp\zm_alcatraz_sq::setup_dryer_challenge, ::setup_dryer_challenge);
 }
 
 setup_dryer_challenge()
@@ -37,7 +37,7 @@ dryer_zombies_thread()
 		{
 			level.zombie_total = n_zombie_count_min;
 		}
-		maps/mp/zombies/_zm_ai_brutus::brutus_spawn_in_zone( "cellblock_shower" );
+		maps\mp\zombies\_zm_ai_brutus::brutus_spawn_in_zone( "cellblock_shower" );
 		while ( flag( "dryer_cycle_active" ) )
 		{
 			a_zombies_in_shower = [];
@@ -69,9 +69,9 @@ dryer_trigger_thread()
 		a_dryer_spawns = [];
 		sndent = spawn( "script_origin", ( 1613, 10599, 1203 ) );
 		self waittill( "trigger", player );
-		index = maps/mp/zombies/_zm_weapons::get_player_index( player );
+		index = maps\mp\zombies\_zm_weapons::get_player_index( player );
 		current_weapon = player getcurrentweapon();
-		current_weapon = player maps/mp/zombies/_zm_weapons::switch_from_alt_weapon( current_weapon );
+		current_weapon = player maps\mp\zombies\_zm_weapons::switch_from_alt_weapon( current_weapon );
 		if ( isDefined( level.custom_pap_validation ) )
 		{
 			valid = self [[ level.custom_pap_validation ]]( player );
@@ -80,7 +80,7 @@ dryer_trigger_thread()
 				continue;
 			}
 		}
-		if ( player maps/mp/zombies/_zm_magicbox::can_buy_weapon() && !player maps/mp/zombies/_zm_laststand::player_is_in_laststand() && !is_true( player.intermission ) || player isthrowinggrenade() && !player maps/mp/zombies/_zm_weapons::can_upgrade_weapon( current_weapon ) )
+		if ( player maps\mp\zombies\_zm_magicbox::can_buy_weapon() && !player maps\mp\zombies\_zm_laststand::player_is_in_laststand() && !is_true( player.intermission ) || player isthrowinggrenade() && !player maps\mp\zombies\_zm_weapons::can_upgrade_weapon( current_weapon ) )
 		{
 			wait 0.1;
 			continue;
@@ -97,7 +97,7 @@ dryer_trigger_thread()
 				continue;
 			}
 		}
-		if ( !maps/mp/zombies/_zm_weapons::is_weapon_or_base_included( current_weapon ) )
+		if ( !maps\mp\zombies\_zm_weapons::is_weapon_or_base_included( current_weapon ) )
 		{
 			continue;
 		}
@@ -117,9 +117,9 @@ dryer_trigger_thread()
 			player.restore_stock = player getweaponammostock( current_weapon );
 			player.restore_max = weaponmaxammo( current_weapon );
 		}
-		if ( player maps/mp/zombies/_zm_pers_upgrades_functions::is_pers_double_points_active() )
+		if ( player maps\mp\zombies\_zm_pers_upgrades_functions::is_pers_double_points_active() )
 		{
-			current_cost = player maps/mp/zombies/_zm_pers_upgrades_functions::pers_upgrade_double_points_cost( current_cost );
+			current_cost = player maps\mp\zombies\_zm_pers_upgrades_functions::pers_upgrade_double_points_cost( current_cost );
 		}
 		if ( player.score < current_cost ) 
 		{
@@ -130,23 +130,23 @@ dryer_trigger_thread()
 			}
 			else
 			{
-				player maps/mp/zombies/_zm_audio::create_and_play_dialog( "general", "perk_deny", undefined, 0 );
+				player maps\mp\zombies\_zm_audio::create_and_play_dialog( "general", "perk_deny", undefined, 0 );
 			}
 			continue;
 		}
 		
 		self.pack_player = player;
 		flag_set( "pack_machine_in_use" );
-		maps/mp/_demo::bookmark( "zm_player_use_packapunch", getTime(), player );
-		player maps/mp/zombies/_zm_stats::increment_client_stat( "use_pap" );
-		player maps/mp/zombies/_zm_stats::increment_player_stat( "use_pap" );
+		maps\mp\_demo::bookmark( "zm_player_use_packapunch", getTime(), player );
+		player maps\mp\zombies\_zm_stats::increment_client_stat( "use_pap" );
+		player maps\mp\zombies\_zm_stats::increment_player_stat( "use_pap" );
 		self thread destroy_weapon_in_blackout( player );
 		self thread destroy_weapon_on_disconnect( player );
-		player maps/mp/zombies/_zm_score::minus_to_player_score( current_cost, 1 );
+		player maps\mp\zombies\_zm_score::minus_to_player_score( current_cost, 1 );
 		sound = "evt_bottle_dispense";
 		playsoundatposition( sound, self.origin );
-		self thread maps/mp/zombies/_zm_audio::play_jingle_or_stinger( "mus_perks_packa_sting" );
-		player maps/mp/zombies/_zm_audio::create_and_play_dialog( "weapon_pickup", "upgrade_wait" );
+		self thread maps\mp\zombies\_zm_audio::play_jingle_or_stinger( "mus_perks_packa_sting" );
+		player maps\mp\zombies\_zm_audio::create_and_play_dialog( "weapon_pickup", "upgrade_wait" );
 		self trigger_off();
 		if ( !is_true( upgrade_as_attachment ) )
 		{
@@ -158,7 +158,7 @@ dryer_trigger_thread()
 		}
 		player thread do_knuckle_crack();
 		self.current_weapon = current_weapon;
-		self.upgrade_name = maps/mp/zombies/_zm_weapons::get_upgrade_weapon( current_weapon, upgrade_as_attachment );
+		self.upgrade_name = maps\mp\zombies\_zm_weapons::get_upgrade_weapon( current_weapon, upgrade_as_attachment );
 		//WASHING MACHINE STUFF	
 		//level setclientfield( "dryer_stage", 2 );
 		dryer_playerclip = getent( "dryer_playerclip", "targetname" );
@@ -166,7 +166,7 @@ dryer_trigger_thread()
 		if ( isDefined( level.music_override ) && !level.music_override )
 		{
 			level notify( "sndStopBrutusLoop" );
-			level thread maps/mp/zombies/_zm_audio::sndmusicstingerevent( "laundry_defend" );
+			level thread maps\mp\zombies\_zm_audio::sndmusicstingerevent( "laundry_defend" );
 		}
 		exploder( 1000 );
 		sndent thread snddryercountdown( n_dryer_cycle_duration );
@@ -231,11 +231,11 @@ wait_for_timeout( weapon, player ) //checked //checked matches cerberus output
 	self thread wait_for_disconnect( player );
 	wait 15;
 	self notify( "pap_timeout" );
-	maps/mp/zombies/_zm_weapons::unacquire_weapon_toggle( weapon );
+	maps\mp\zombies\_zm_weapons::unacquire_weapon_toggle( weapon );
 	if ( isDefined( player ) )
 	{
-		player maps/mp/zombies/_zm_stats::increment_client_stat( "pap_weapon_not_grabbed" );
-		player maps/mp/zombies/_zm_stats::increment_player_stat( "pap_weapon_not_grabbed" );
+		player maps\mp\zombies\_zm_stats::increment_client_stat( "pap_weapon_not_grabbed" );
+		player maps\mp\zombies\_zm_stats::increment_player_stat( "pap_weapon_not_grabbed" );
 	}
 }
 
@@ -259,8 +259,8 @@ wait_for_player_to_take( player, weapon, upgrade_as_attachment ) //changed 3/30/
 		self waittill( "trigger", trigger_player );
 		if ( trigger_player == player ) //working
 		{
-			player maps/mp/zombies/_zm_stats::increment_client_stat( "pap_weapon_grabbed" );
-			player maps/mp/zombies/_zm_stats::increment_player_stat( "pap_weapon_grabbed" );
+			player maps\mp\zombies\_zm_stats::increment_client_stat( "pap_weapon_grabbed" );
+			player maps\mp\zombies\_zm_stats::increment_player_stat( "pap_weapon_grabbed" );
 			current_weapon = player getcurrentweapon();
 			/*
 /#
@@ -272,7 +272,7 @@ wait_for_player_to_take( player, weapon, upgrade_as_attachment ) //changed 3/30/
 			*/
 			if ( is_player_valid( player ) && !player.is_drinking && !is_placeable_mine( current_weapon ) && !is_equipment( current_weapon ) && level.revive_tool != current_weapon && current_weapon != "none" && !player hacker_active() )
 			{
-				maps/mp/_demo::bookmark( "zm_player_grabbed_packapunch", getTime(), player );
+				maps\mp\_demo::bookmark( "zm_player_grabbed_packapunch", getTime(), player );
 				self notify( "pap_taken" );
 				player notify( "pap_taken" );
 				player.pap_used = 1;
@@ -285,15 +285,15 @@ wait_for_player_to_take( player, weapon, upgrade_as_attachment ) //changed 3/30/
 					player thread do_player_general_vox( "general", "pap_arm2", 15, 100 );
 				}
 				weapon_limit = get_player_weapon_limit( player );
-				player maps/mp/zombies/_zm_weapons::take_fallback_weapon();
+				player maps\mp\zombies\_zm_weapons::take_fallback_weapon();
 				primaries = player getweaponslistprimaries();
 				if ( isDefined( primaries ) && primaries.size >= weapon_limit )
 				{
-					player maps/mp/zombies/_zm_weapons::weapon_give( upgrade_weapon );
+					player maps\mp\zombies\_zm_weapons::weapon_give( upgrade_weapon );
 				}
 				else
 				{
-					player giveweapon( upgrade_weapon, 0, player maps/mp/zombies/_zm_weapons::get_pack_a_punch_weapon_options( upgrade_weapon ) );
+					player giveweapon( upgrade_weapon, 0, player maps\mp\zombies\_zm_weapons::get_pack_a_punch_weapon_options( upgrade_weapon ) );
 					player givestartammo( upgrade_weapon );
 				}
 				player switchtoweapon( upgrade_weapon );
@@ -309,7 +309,7 @@ wait_for_player_to_take( player, weapon, upgrade_as_attachment ) //changed 3/30/
 				player.restore_stock = undefined;
 				player.restore_max = undefined;
 				player.restore_clip_size = undefined;
-				player maps/mp/zombies/_zm_weapons::play_weapon_vo( upgrade_weapon );
+				player maps\mp\zombies\_zm_weapons::play_weapon_vo( upgrade_weapon );
 				return;
 			}
 		}

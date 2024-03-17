@@ -1,27 +1,23 @@
-#include maps/mp/zombies/_zm;
-#include maps/mp/zombies/_zm_perks;
-#include maps/mp/_visionset_mgr;
-#include maps/mp/zombies/_zm_score;
-#include maps/mp/zombies/_zm_stats;
-#include maps/mp/_demo;
-#include maps/mp/zombies/_zm_audio;
-#include maps/mp/zombies/_zm_pers_upgrades_functions;
-#include maps/mp/zombies/_zm_power;
-#include maps/mp/zombies/_zm_laststand;
-#include maps/mp/zombies/_zm_weapons;
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/_utility;
-#include common_scripts/utility;
-#include maps/mp/zombies/_zm_magicbox;
+#include maps\mp\zombies\_zm;
+#include maps\mp\zombies\_zm_perks;
+#include maps\mp\_visionset_mgr;
+#include maps\mp\zombies\_zm_score;
+#include maps\mp\zombies\_zm_audio;
+#include maps\mp\zombies\_zm_pers_upgrades_functions;
+#include maps\mp\zombies\_zm_power;
+#include maps\mp\zombies\_zm_laststand;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\_utility;
+#include common_scripts\utility;
 
 main()
 {
 	if(GetDvar("customMap") == "vanilla")
 		return;
-	replacefunc(maps/mp/zombies/_zm_perks::perks_register_clientfield, ::perks_register_clientfield); 
-	replacefunc(maps/mp/zombies/_zm_perks::set_perk_clientfield, ::set_perk_clientfield);
-	replacefunc(maps/mp/zombies/_zm_perks::perk_machine_spawn_init, ::perk_machine_spawn_init);
-	replacefunc(maps/mp/zombies/_zm_perks::init, ::perks_init);
+	replacefunc(maps\mp\zombies\_zm_perks::perks_register_clientfield, ::perks_register_clientfield); 
+	replacefunc(maps\mp\zombies\_zm_perks::set_perk_clientfield, ::set_perk_clientfield);
+	replacefunc(maps\mp\zombies\_zm_perks::perk_machine_spawn_init, ::perk_machine_spawn_init);
+	replacefunc(maps\mp\zombies\_zm_perks::init, ::perks_init);
 	if(GetDvar("customMap") != "rooftop")
 	{
 		level.zombiemode_using_marathon_perk = 1;
@@ -29,8 +25,6 @@ main()
 	}
 	level.zombiemode_using_additionalprimaryweapon_perk = 1;
 	level.zombiemode_using_divetonuke_perk = 1;
-	replacefunc(maps/mp/zombies/_zm_perk_divetonuke::enable_divetonuke_perk_for_level, scripts/zm/zm_prison/bsm_prison_perk_phd::enable_divetonuke_perk_for_level);
-	maps/mp/zombies/_zm_perk_divetonuke::enable_divetonuke_perk_for_level();
 	precacheShader( "specialty_additionalprimaryweapon_zombies" );
 	precacheShader( "specialty_divetonuke_zombies" );
 	precacheShader( "specialty_juggernaut_zombies" );
@@ -45,7 +39,7 @@ main()
 perks_init() //checked partially changed to match cerberus output
 {
 	level.additionalprimaryweapon_limit = 3;
-	level.perk_purchase_limit = 4;
+	level.perk_purchase_limit = 9;
 	if ( !level.createfx_enabled )
 	{
 		perks_register_clientfield(); //fixed

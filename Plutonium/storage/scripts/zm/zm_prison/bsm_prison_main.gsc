@@ -1,36 +1,35 @@
-#include maps/mp/zm_prison_sq_wth;
-#include maps/mp/zm_prison_sq_fc;
-#include maps/mp/zm_prison_sq_final;
-#include maps/mp/zombies/_zm_powerups;
-#include maps/mp/zombies/_zm_magicbox;
-#include maps/mp/zm_alcatraz_travel;
-#include maps/mp/zm_alcatraz_traps;
-#include maps/mp/zm_prison;
-#include maps/mp/zm_alcatraz_sq;
-#include maps/mp/zm_prison_sq_bg;
-#include maps/mp/zm_prison_spoon;
-#include maps/mp/zm_prison_achievement;
-#include maps/mp/zombies/_zm_game_module;
-#include maps/mp/gametypes_zm/_zm_gametype;
-#include maps/mp/zombies/_zm_afterlife;
-#include maps/mp/zombies/_zm_ai_brutus;
-#include maps/mp/zm_alcatraz_craftables;
-#include maps/mp/zombies/_zm_craftables;
-#include maps/mp/zm_alcatraz_utility;
-#include maps/mp/zombies/_zm_utility;
-#include common_scripts/utility;
-#include maps/mp/_utility;
-#include maps/mp/zm_alcatraz_classic;
-#include maps/mp/zm_prison;
-#include maps/mp/zombies/_zm_blockers;
+#include maps\mp\zm_prison_sq_wth;
+#include maps\mp\zm_prison_sq_fc;
+#include maps\mp\zm_prison_sq_final;
+#include maps\mp\zombies\_zm_powerups;
+#include maps\mp\zombies\_zm_magicbox;
+#include maps\mp\zm_alcatraz_travel;
+#include maps\mp\zm_alcatraz_traps;
+#include maps\mp\zm_prison;
+#include maps\mp\zm_alcatraz_sq;
+#include maps\mp\zm_prison_sq_bg;
+#include maps\mp\zm_prison_spoon;
+#include maps\mp\zm_prison_achievement;
+#include maps\mp\zombies\_zm_game_module;
+#include maps\mp\gametypes_zm\_zm_gametype;
+#include maps\mp\zombies\_zm_afterlife;
+#include maps\mp\zombies\_zm_ai_brutus;
+#include maps\mp\zm_alcatraz_craftables;
+#include maps\mp\zombies\_zm_craftables;
+#include maps\mp\zm_alcatraz_utility;
+#include maps\mp\zombies\_zm_utility;
+#include common_scripts\utility;
+#include maps\mp\_utility;
+#include maps\mp\zm_alcatraz_classic;
+#include maps\mp\zombies\_zm_blockers;
 
 main()
 {
 	if(GetDvar("customMap") == "vanilla") return;
-	replacefunc(maps/mp/zm_alcatraz_classic::give_afterlife, ::give_afterlife);
-	replacefunc(maps/mp/zombies/_zm_ai_brutus::init, ::init_brutus);
-	replacefunc(maps/mp/zombies/_zm_blockers::door_think, ::door_think);
-	replacefunc(maps/mp/zm_alcatraz_craftables::include_craftables, ::include_craftables);
+	replacefunc(maps\mp\zm_alcatraz_classic::give_afterlife, ::give_afterlife);
+	replacefunc(maps\mp\zombies\_zm_ai_brutus::init, ::init_brutus);
+	replacefunc(maps\mp\zombies\_zm_blockers::door_think, ::door_think);
+	replacefunc(maps\mp\zm_alcatraz_craftables::include_craftables, ::include_craftables);
 }
 
 init()
@@ -277,11 +276,6 @@ include_craftables()
 alcatraz_afterlife_doors() //checked changed to match cerberus output
 {
 	wait 0.05;
-	if ( !isDefined( level.shockbox_anim ) )
-	{
-		level.shockbox_anim[ "on" ] = %fxanim_zom_al_shock_box_on_anim;
-		level.shockbox_anim[ "off" ] = %fxanim_zom_al_shock_box_off_anim;
-	}
 	if ( isDefined( self.script_noteworthy ) && self.script_noteworthy == "afterlife_door" )
 	{
 		self sethintstring( &"ZM_PRISON_AFTERLIFE_DOOR" );
@@ -289,7 +283,7 @@ alcatraz_afterlife_doors() //checked changed to match cerberus output
 		{
 			if ( self.origin != ( 2138, 9210, 1375 ) )
 			{
-				self maps/mp/zombies/_zm_blockers::door_opened( 0 );
+				self maps\mp\zombies\_zm_blockers::door_opened( 0 );
 			}
 		}
 		/*
@@ -336,7 +330,7 @@ alcatraz_afterlife_doors() //checked changed to match cerberus output
 						{
 							array_delete( getentarray( m_shockbox.script_string, "script_noteworthy" ) );
 						}
-						self maps/mp/zombies/_zm_blockers::door_opened( 0 );
+						self maps\mp\zombies\_zm_blockers::door_opened( 0 );
 						attacker notify( "player_opened_afterlife_door" );
 						break;
 					}
@@ -346,7 +340,7 @@ alcatraz_afterlife_doors() //checked changed to match cerberus output
 	}
 	while ( 1 )
 	{
-		if ( !self maps/mp/zombies/_zm_blockers::door_buy() )
+		if ( !self maps\mp\zombies\_zm_blockers::door_buy() )
 		{
 			wait 0.05;
 			continue;
@@ -382,7 +376,7 @@ map_setup()
 onplayerconnect()
 {
 	level waittill( "connected", player );
-	maps/mp/zombies/_zm_game_module::turn_power_on_and_open_doors();
+	maps\mp\zombies\_zm_game_module::turn_power_on_and_open_doors();
 	wait 1;
 	flag_set( "power_on" );
 	level setclientfield( "zombie_power_on", 1 );
@@ -629,10 +623,10 @@ init_brutus() //checked changed to match cerberus output
 	level.brutus_custom_goalradius = 48;
 	registerclientfield( "actor", "helmet_off", 9000, 1, "int" );
 	registerclientfield( "actor", "brutus_lock_down", 9000, 1, "int" );
-	level thread maps/mp/zombies/_zm_ai_brutus::brutus_spawning_logic();
+	level thread maps\mp\zombies\_zm_ai_brutus::brutus_spawning_logic();
 	if ( !level.brutus_in_grief )
 	{
-		level thread maps/mp/zombies/_zm_ai_brutus::get_brutus_interest_points();
+		level thread maps\mp\zombies\_zm_ai_brutus::get_brutus_interest_points();
 		/*
 /#
 		setup_devgui();
@@ -738,7 +732,7 @@ bridge_reset()
 		foreach ( player in level.players )
 		{
 			player.zone = player get_current_zone();
-			if( maps/mp/zombies/_zm_utility::is_player_valid( player ) && player.zone == "zone_golden_gate_bridge" )
+			if( maps\mp\zombies\_zm_utility::is_player_valid( player ) && player.zone == "zone_golden_gate_bridge" )
 			{
 				level.players_on_bridge++;
 			}
@@ -749,7 +743,7 @@ bridge_reset()
 		level waittill( "start_of_round" );
 		prep_for_new_quest();
 		waittill_crafted( "refuelable_plane" );
-		maps/mp/zombies/_zm_ai_brutus::transfer_plane_trigger( "fuel", "fly" );
+		maps\mp\zombies\_zm_ai_brutus::transfer_plane_trigger( "fuel", "fly" );
 		t_plane_fly = getent( "plane_fly_trigger", "targetname" );
 		t_plane_fly trigger_on();
 		wait 1;
@@ -907,8 +901,8 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			self.water_damage = 1;
 		}
 	}
-	attacker thread maps/mp/gametypes_zm/_weapons::checkhit( weapon );
-	if ( attacker maps/mp/zombies/_zm_pers_upgrades_functions::pers_mulit_kill_headshot_active() && is_headshot( weapon, shitloc, meansofdeath ) )
+	attacker thread maps\mp\gametypes_zm\_weapons::checkhit( weapon );
+	if ( attacker maps\mp\zombies\_zm_pers_upgrades_functions::pers_mulit_kill_headshot_active() && is_headshot( weapon, shitloc, meansofdeath ) )
 	{
 		final_damage *= 2;
 	}
