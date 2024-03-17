@@ -7,8 +7,13 @@ main()
 {
 	if(GetDvar("customMap") == "vanilla")
 		return;
+		/* caso não funcione o código, use os scripts a baixo
+		if the code doesn't work, use the scripts below
 	replacefunc(scripts\zm\zm_prison\PHD_FLOPPER\divetonuke_perk::divetonuke_level, scripts\zm\zm_prison\bsm_prison_perk_phd::divetonuke_level);
 	scripts\zm\zm_prison\PHD_FLOPPER\divetonuke_perk::divetonuke_level();
+	*/
+
+	thread divetonuke_level();
 }
 
 divetonuke_level()
