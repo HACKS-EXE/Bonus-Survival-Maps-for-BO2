@@ -464,7 +464,7 @@ extra_perk_spawns() //custom function
 	level.docksPerks[ "specialty_additionalprimaryweapon" ] = spawnstruct();
 	level.docksPerks[ "specialty_additionalprimaryweapon" ].origin = ( 386, 8297, 64 );
 	level.docksPerks[ "specialty_additionalprimaryweapon" ].angles = ( 0, 0, 0 );
-	level.docksPerks[ "specialty_additionalprimaryweapon" ].model = "p6_zm_al_vending_nuke_on";
+	level.docksPerks[ "specialty_additionalprimaryweapon" ].model = "p6_zm_al_vending_three_gun_on";
 	level.docksPerks[ "specialty_additionalprimaryweapon" ].script_noteworthy = "specialty_additionalprimaryweapon";
 	level.docksPerks[ "specialty_quickrevive" ] = spawnstruct();
 	level.docksPerks[ "specialty_quickrevive" ].origin = ( 208.5, 6373.25, 64 );
